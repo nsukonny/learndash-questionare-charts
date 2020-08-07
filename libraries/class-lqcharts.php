@@ -89,6 +89,7 @@ class Learndash_QCharts {
 	public function includes() {
 
 		if ( defined( 'LQCHARTS_LIBRARIES_PATH' ) ) {
+			require LQCHARTS_LIBRARIES_PATH . 'class-metabox.php';
 			require LQCHARTS_LIBRARIES_PATH . 'class-shortcode.php';
 		}
 

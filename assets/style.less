@@ -1,0 +1,223 @@
+.lqcharts {
+  width: 100%;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  display: flex;
+  justify-content: space-between;
+
+  &-left-side {
+    width: 40%;
+    min-width: 460px;
+  }
+
+  &-right-side {
+    padding: 0 24px;
+    width: calc(60% - 40px);
+    min-width: 650px;
+  }
+
+  &-last-week {
+
+    &__icon {
+      display: block;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-size: 26px;
+      float: left;
+      margin-right: 15px;
+      margin-top: -7px;
+
+      &_info {
+        background: #89C1E4;
+        color: #FFFFFF;
+      }
+    }
+
+    &__stat {
+      padding: 9px 9px 9px 27px;
+      background: #EBEDED;
+      position: relative;
+      border-radius: 24px;
+      color: #606060;
+      font-size: 13px;
+      line-height: 19px;
+
+      &::after {
+        display: block;
+        background: url("img/arrow.png");
+        width: 9px;
+        height: 10px;
+        content: '';
+        position: absolute;
+        top: 13px;
+        left: 11px;
+      }
+    }
+
+    &__title {
+      font-size: 18px;
+      line-height: 25px;
+      color: #132B46;
+    }
+
+    &__body {
+      border: 1px solid #E6E6E6;
+      padding: 25px;
+      margin-top: 24px;
+
+      &-left {
+        font-size: 13px;
+        line-height: 19px;
+        color: #999999;
+        width: calc(100% - 100px);
+        float: left;
+        min-width: 300px;
+        margin-top: 10px;
+
+        hr {
+          width: 250px;
+          margin: 30px 0 10px 0;
+          height: 1px;
+          background: #E6E6E6;
+        }
+      }
+
+      &-right {
+        float: right;
+        width: 100px;
+        position: relative;
+      }
+    }
+  }
+
+  &-score {
+
+    &__title {
+      font-size: 18.4007px;
+      line-height: 25px;
+      color: #132B46;
+      width: 100%;
+      margin-top: 38px;
+
+      h3 {
+        font-size: 13.7999px;
+        line-height: 19px;
+        color: #132B46;
+      }
+
+      span {
+        font-size: 9.20053px;
+        line-height: 13px;
+        color: #808080;
+      }
+    }
+
+    &__body {
+      border: 1px solid #E6E6E6;
+      padding: 17px;
+      margin-top: 24px;
+      width: 100%;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    &__chart {
+      width: 33%;
+      font-size: 16px;
+      line-height: 25px;
+      color: #132B46;
+      text-align: center;
+      min-width: 120px;
+
+      canvas {
+        width: 100px;
+      }
+
+      &-wrapper {
+        width: 100px;
+        margin: auto;
+        position: relative;
+      }
+    }
+  }
+
+  .lqcharts-rounded-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    &__title {
+      font-size: 20px;
+      color: #132B46;
+      text-align: center;
+      margin-top: -10px;
+    }
+
+    &__sub {
+      font-size: 10px;
+      line-height: 10px;
+      color: #132B46;
+      height: 10px;
+      margin-top: -5px;
+    }
+  }
+
+
+  &-graph {
+    border: 1px solid #E6E6E6;
+    padding: 20px;
+
+    &__title {
+      font-size: 10px;
+      line-height: 13px;
+      color: #808080;
+
+      h3 {
+        font-size: 14px;
+        line-height: 19px;
+        color: #132B46;
+        margin: 0;
+      }
+    }
+
+    &__chart {
+      height: 300px;
+    }
+  }
+
+  &-graph-footer {
+    border: 1px solid #E6E6E6;
+    margin-top: 10px;
+    padding: 10px 15px;
+    font-size: 10px;
+    line-height: 24px;
+    color: #B3B3B3;
+
+    h3 {
+      font-size: 13px;
+      line-height: 19px;
+      color: #132B46;
+      margin: 0;
+    }
+
+    a {
+      color: #B3B3B3;
+      font-weight: bold;
+    }
+
+    i {
+      font-size: 20px;
+      margin-right: 10px;
+    }
+  }
+
+  &-clear {
+    clear: both;
+    height: 1px;
+  }
+}
