@@ -5,10 +5,10 @@
   font-weight: normal;
   display: flex;
   justify-content: space-between;
+  font-family: 'SF UI Text', sans-serif;
 }
 .lqcharts-left-side {
   width: 40%;
-  min-width: 460px;
 }
 .lqcharts-right-side {
   padding: 0 24px;
@@ -32,23 +32,100 @@
   color: #FFFFFF;
 }
 .lqcharts-last-week__stat {
-  padding: 9px 9px 9px 27px;
+  padding: 9px;
   background: #EBEDED;
   position: relative;
   border-radius: 24px;
   color: #606060;
   font-size: 13px;
   line-height: 19px;
+  margin-left: 5px;
 }
-.lqcharts-last-week__stat::after {
+.lqcharts-last-week__stat_up {
+  padding-left: 27px;
+}
+.lqcharts-last-week__stat_up::after {
   display: block;
   background: url("img/arrow.png");
   width: 9px;
   height: 10px;
   content: '';
   position: absolute;
+  top: 11px;
+  left: 11px;
+}
+.lqcharts-last-week__stat_down {
+  padding-left: 27px;
+}
+.lqcharts-last-week__stat_down::after {
+  display: block;
+  background: url("img/arrow_down.png");
+  width: 9px;
+  height: 10px;
+  content: '';
+  position: absolute;
   top: 13px;
   left: 11px;
+}
+.lqcharts-last-week__stat-tooltip {
+  padding: 10px;
+  position: absolute;
+  width: auto;
+  white-space: nowrap;
+  word-wrap: no-wrap;
+  box-shadow: 1px 1px 20px #aaa;
+  border-radius: 5px;
+  background-color: #fff;
+  top: -50px;
+  left: 50%;
+  transform: translate(-50%);
+  transform-style: preserve-3d;
+  z-index: 200;
+  font-size: 0.9em;
+  display: none;
+}
+.lqcharts-last-week__stat-tooltip:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 10px;
+  height: 10px;
+  transform-origin: 50% 50%;
+  transform: rotate(45deg) translateX(-50%);
+  background-color: #fff;
+  left: 50%;
+  bottom: -9px;
+  z-index: 400;
+}
+.lqcharts-last-week__stat-tooltip:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  transform-origin: 50% 50%;
+  transform: rotate(45deg) translateX(-50%) translateZ(-1px);
+  background-color: #fff;
+  left: 50%;
+  bottom: -10px;
+  z-index: -1;
+  box-shadow: -1px -1px 20px #aaa;
+}
+.lqcharts-last-week__stat-tooltip__src {
+  color: #0641AD;
+  box-shadow: 1px 1px 20px rgba(6, 65, 173, 0.3);
+  top: -50px;
+}
+.lqcharts-last-week__stat-tooltip__src:after {
+  top: auto;
+  bottom: -8px;
+}
+.lqcharts-last-week__stat-tooltip__src:before {
+  top: auto;
+  bottom: -8px;
+}
+.lqcharts-last-week__stat:hover .lqcharts-last-week__stat-tooltip {
+  display: block;
 }
 .lqcharts-last-week__title {
   font-size: 18px;
@@ -66,11 +143,10 @@
   color: #999999;
   width: calc(100% - 100px);
   float: left;
-  min-width: 300px;
   margin-top: 10px;
 }
 .lqcharts-last-week__body-left hr {
-  width: 250px;
+  width: 85%;
   margin: 30px 0 10px 0;
   height: 1px;
   background: #E6E6E6;
@@ -97,6 +173,10 @@
   line-height: 13px;
   color: #808080;
 }
+.lqcharts-score__title i {
+  font-size: 26px;
+  vertical-align: bottom;
+}
 .lqcharts-score__body {
   border: 1px solid #E6E6E6;
   padding: 17px;
@@ -121,6 +201,70 @@
   margin: auto;
   position: relative;
 }
+.lqcharts-score__i {
+  position: relative;
+}
+.lqcharts-score__i:hover .lqcharts-score__i-tooltip {
+  display: block;
+}
+.lqcharts-score__i-tooltip {
+  padding: 10px;
+  position: absolute;
+  width: auto;
+  white-space: nowrap;
+  word-wrap: no-wrap;
+  box-shadow: 1px 1px 20px #aaa;
+  border-radius: 5px;
+  background-color: #fff;
+  top: -50px;
+  left: 50%;
+  transform: translate(-20%);
+  transform-style: preserve-3d;
+  z-index: 200;
+  font-size: 12px !important;
+  display: none;
+  font-family: 'SF UI Text', sans-serif;
+}
+.lqcharts-score__i-tooltip:after {
+  content: "";
+  position: absolute;
+  display: block;
+  width: 10px;
+  height: 10px;
+  transform-origin: 50% 50%;
+  transform: rotate(45deg) translateX(-50%);
+  background-color: #fff;
+  left: 20%;
+  bottom: -9px;
+  z-index: 400;
+}
+.lqcharts-score__i-tooltip:before {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  transform-origin: 50% 50%;
+  transform: rotate(45deg) translateX(-50%) translateZ(-1px);
+  background-color: #fff;
+  left: 20%;
+  bottom: -10px;
+  z-index: -1;
+  box-shadow: -1px -1px 20px #aaa;
+}
+.lqcharts-score__i-tooltip__src {
+  color: #0641AD;
+  box-shadow: 1px 1px 20px rgba(6, 65, 173, 0.3);
+  top: -50px;
+}
+.lqcharts-score__i-tooltip__src:after {
+  top: auto;
+  bottom: -8px;
+}
+.lqcharts-score__i-tooltip__src:before {
+  top: auto;
+  bottom: -8px;
+}
 .lqcharts .lqcharts-rounded-center {
   position: absolute;
   top: 50%;
@@ -142,33 +286,30 @@
 }
 .lqcharts-graph {
   border: 1px solid #E6E6E6;
-  padding: 20px;
+  padding: 10px 20px 20px 20px;
 }
 .lqcharts-graph__title {
-  font-size: 10px;
+  font-size: 13px;
   line-height: 13px;
   color: #808080;
 }
 .lqcharts-graph__title h3 {
-  font-size: 14px;
-  line-height: 19px;
+  font-size: 18px;
+  line-height: 32px;
   color: #132B46;
   margin: 0;
-}
-.lqcharts-graph__chart {
-  height: 300px;
 }
 .lqcharts-graph-footer {
   border: 1px solid #E6E6E6;
   margin-top: 10px;
-  padding: 10px 15px;
-  font-size: 10px;
-  line-height: 24px;
+  padding: 10px 20px 20px 20px;
+  font-size: 13px;
+  line-height: 19px;
   color: #B3B3B3;
 }
 .lqcharts-graph-footer h3 {
-  font-size: 13px;
-  line-height: 19px;
+  font-size: 18px;
+  line-height: 32px;
   color: #132B46;
   margin: 0;
 }
@@ -178,7 +319,7 @@
 }
 .lqcharts-graph-footer i {
   font-size: 20px;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .lqcharts-clear {
   clear: both;

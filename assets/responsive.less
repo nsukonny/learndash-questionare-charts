@@ -1,0 +1,143 @@
+@media screen and (max-width: 1024px) {
+  .lqcharts {
+    flex-wrap: wrap;
+
+    &-left-side {
+      width: 100%;
+    }
+
+    &-right-side {
+      width: 100%;
+      padding: 0;
+      margin-top: 20px;
+      min-width: 100%;
+    }
+
+    &-score {
+      margin-top: 20px;
+
+      &__title {
+      }
+
+      &__body {
+        margin-top: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+
+  .lqcharts {
+
+    &-last-week {
+
+      &__body {
+        border: 1px solid #E6E6E6;
+        padding: 15px;
+        margin-top: 24px;
+
+        &-left {
+          font-size: 13px;
+          line-height: 19px;
+          color: #999999;
+          width: 100%;
+          float: none;
+          margin-top: 10px;
+
+          hr {
+            width: 100%;
+            margin: 10px 0 10px 0;
+            height: 1px;
+            background: #E6E6E6;
+          }
+        }
+
+        &-right {
+          float: none;
+          width: 33%;
+          position: relative;
+          margin: 20px auto 0 auto;
+
+          .lqcharts-rounded-center__title {
+          }
+
+          .lqcharts-rounded-center__sub {
+          }
+
+        }
+      }
+    }
+
+    &-score {
+
+      &__title {
+        margin-top: 18px;
+        height: 40px;
+      }
+
+      &__i-tooltip {
+        transform: translate(-10%);
+
+        &:before {
+          left: 10%;
+        }
+
+        &:after {
+          left: 10%;
+        }
+      }
+
+      &__body {
+
+        .lqcharts-rounded-center__title {
+          font-size: 20px;
+          margin-top: -6px;
+        }
+
+        .lqcharts-rounded-center__sub {
+          font-size: 8px;
+        }
+
+      }
+
+      &__chart {
+        font-size: 13px;
+        min-width: 33%;
+
+        canvas {
+          width: 100%;
+        }
+
+        &-wrapper {
+          width: 95%;
+        }
+      }
+    }
+
+    &-graph {
+      padding: 0;
+
+      &__title {
+        margin: 20px;
+      }
+
+      &__chart {
+        height: auto;
+        padding-bottom: 10px;
+      }
+
+      &-footer {
+
+        i {
+          position: absolute;
+        }
+
+        img {
+          position: absolute;
+          margin-left: 25px;
+        }
+      }
+    }
+  }
+}

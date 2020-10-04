@@ -28,6 +28,7 @@ class Learndash_QCharts_Shortcode {
 	public function add_scripts() {
 
 		wp_enqueue_style( 'lqcharts-styles', LQCHARTS_PLUGIN_URL . '/assets/style.css', array(), time() );
+		wp_enqueue_style( 'lqcharts-responsive-styles', LQCHARTS_PLUGIN_URL . '/assets/responsive.css', array(), time() );
 		wp_enqueue_style( 'lqcharts-styles', LQCHARTS_PLUGIN_URL . '/assets/js-libraries/chart/chart.min.css', array(), time() );
 
 		wp_enqueue_script( 'lqcharts-library-scripts', LQCHARTS_PLUGIN_URL . '/assets/js-libraries/chart/chart.min.js', array(
@@ -59,15 +60,21 @@ class Learndash_QCharts_Shortcode {
 		$last_week  = $this->get_last_week_growth( $weeks );
 		$speech     = $this->get_speech( $total );
 		$thumb      = $this->get_thumbs( $weeks );
+
+		$stat_class = '';
+		if ( 0 !== $last_week ) {
+			$stat_class = ( 0 < $last_week ) ? 'lqcharts-last-week__stat_up' : 'lqcharts-last-week__stat_down';
+		}
 		?>
         <div class="lqcharts">
 
             <div class="lqcharts-left-side">
                 <div class="lqcharts-last-week">
 
-                    <div class="lqcharts-last-week__title">
-                        <span class="lqcharts-last-week__icon lqcharts-last-week__icon_info">i</span>Gesamtbewertung
-                        <span class="lqcharts-last-week__stat"><?php esc_attr_e( $last_week ); ?>%</span>
+                    <div class="lqcharts-last-week__title">Gesamtbewertung
+                        <span class="lqcharts-last-week__stat <?php esc_attr_e( $stat_class ); ?>"><?php esc_attr_e( $last_week ); ?>%
+                            <span class="lqcharts-last-week__stat-tooltip">Veränderung zum letzten Feedback</span>
+                        </span>
                     </div>
 
                     <div class="lqcharts-last-week__body">
@@ -89,7 +96,10 @@ class Learndash_QCharts_Shortcode {
                 </div>
 
                 <div class="lqcharts-score">
-                    <div class="lqcharts-score__title">Dein Empfinden</div>
+                    <div class="lqcharts-score__title">
+                        <i class="lqcharts-score__i bb-icon-info-circle"><span class="lqcharts-score__i-tooltip">ø Empfinden der letzten 8 Bewertungen</span></i>
+                        Dein Empfinden
+                    </div>
                     <div class="lqcharts-score__body">
                         <div class="lqcharts-score__chart">
                             <div class="lqcharts-score__chart-wrapper">
@@ -139,7 +149,7 @@ class Learndash_QCharts_Shortcode {
                      data-stab="<?php esc_attr_e( $graph_data['stab'] ); ?>">
                     <div class="lqcharts-graph__title">
                         <h3>Wochenverlauf</h3>
-                        <span>Feedback im Wochenverlauf</span>
+                        <span>Feedback im Wochenverlauf (letzte 8 Wochen)</span>
                     </div>
                     <div class="lqcharts-graph__chart">
                         <canvas id="lqcharts-graph"></canvas>
@@ -150,7 +160,6 @@ class Learndash_QCharts_Shortcode {
                     <h3>Favoriten</h3>
 
 					<?php echo $thumb; ?>
-                    <img src="<?php echo LQCHARTS_PLUGIN_URL . '/assets/img/heart.png' ?>">
                 </div>
             </div>
         </div>
@@ -181,7 +190,7 @@ class Learndash_QCharts_Shortcode {
 			);
 
 			if ( ! current_user_can( 'administrator' ) ) {
-				$args['users'] = array( get_current_user_id() );
+				$args['users'] = get_current_user_id();
 			}
 
 			$statisticModel = $statisticRefMapper->fetchHistoryWithArgs( $args );
@@ -228,6 +237,18 @@ class Learndash_QCharts_Shortcode {
 			}
 		}
 
+		if ( ! isset( $points[0]['percents'] ) ) {
+			$points[0]['percents'] = 0;
+		}
+
+		if ( ! isset( $points[1]['percents'] ) ) {
+			$points[1]['percents'] = 0;
+		}
+
+		if ( ! isset( $points[2]['percents'] ) ) {
+			$points[2]['percents'] = 0;
+		}
+
 		return $points;
 	}
 
@@ -242,6 +263,7 @@ class Learndash_QCharts_Shortcode {
 
 		$the_query = new WP_Query( array(
 			'post_type'   => 'sfwd-quiz',
+			'post_status' => 'publish',
 			'numberposts' => 8,
 			'orderby'     => 'date',
 			'order'       => 'DESC',
@@ -286,7 +308,7 @@ class Learndash_QCharts_Shortcode {
 			$percent = ceil( ( $points * 100 ) / $max_points );
 		}
 
-		if ( ! is_numeric( $percent ) || 1 > $percent ) {
+		if ( is_nan( $percent ) || ! is_numeric( $percent ) || 1 > $percent ) {
 			$percent = 0;
 		}
 
@@ -345,9 +367,13 @@ class Learndash_QCharts_Shortcode {
 		);
 
 		for ( $week_key = count( $weeks ) - 1; 0 <= $week_key; $week_key -- ) {
-			$graph_data['emb']  .= $weeks[ $week_key ][0]['points'] . ( 0 < $week_key ? ',' : '' );
-			$graph_data['bef']  .= $weeks[ $week_key ][1]['points'] . ( 0 < $week_key ? ',' : '' );
-			$graph_data['stab'] .= $weeks[ $week_key ][2]['points'] . ( 0 < $week_key ? ',' : '' );
+			$question_1 = ( $weeks[ $week_key ][0]['points'] * 100 ) / ( $weeks[ $week_key ][0]['gpoints'] * $weeks[ $week_key ][0]['votes'] );
+			$question_2 = ( $weeks[ $week_key ][1]['points'] * 100 ) / ( $weeks[ $week_key ][1]['gpoints'] * $weeks[ $week_key ][1]['votes'] );
+			$question_3 = ( $weeks[ $week_key ][2]['points'] * 100 ) / ( $weeks[ $week_key ][2]['gpoints'] * $weeks[ $week_key ][2]['votes'] );
+
+			$graph_data['emb']  .= ceil( $question_1 ) . ( 0 < $week_key ? ',' : '' );
+			$graph_data['bef']  .= ceil( $question_2 ) . ( 0 < $week_key ? ',' : '' );
+			$graph_data['stab'] .= ceil( $question_3 ) . ( 0 < $week_key ? ',' : '' );
 		}
 
 		return $graph_data;
@@ -379,6 +405,14 @@ class Learndash_QCharts_Shortcode {
 		$week      = ceil( $week * 100 / $week_max );
 		$last_week = ceil( $last_week * 100 / $last_week_max );
 
+		if ( is_nan( $week ) || ! is_numeric( $week ) ) {
+			$week = 0;
+		}
+
+		if ( is_nan( $last_week ) || ! is_numeric( $last_week ) ) {
+			$last_week = 0;
+		}
+
 		return $week - $last_week;
 	}
 
@@ -394,18 +428,22 @@ class Learndash_QCharts_Shortcode {
 	private function get_speech( $total ) {
 
 		$speeches = array(
+			'Deine ersten Ergebnisse erscheinen nach Abschluss der Woche 1.',
 			'Du fühlst dich noch nicht fit. 😟 Bleib dran und schon bald wirst deine Besserung verspüren.',
 			'Du fühlst dich noch nicht so fit. 😐 Bleib dran und schon bald bist du im grünen Bereich!',
 			'Super! Du fühlst dich fit. 🙂 Mach weiter so!',
 			'Hervorragend! 😁 Du fühlst dich sehr fit, beweglich und stabil. Weiter so!',
 		);
-		$key      = 0;
-		if ( 25 < $total && 50 >= $total ) {
-			$key = 1;
-		} else if ( 50 < $total && 75 >= $total ) {
+
+		$key = 1;
+		if ( 0 >= $total ) {
+			$key = 0;
+		} else if ( 25 < $total && 50 >= $total ) {
 			$key = 2;
-		} else if ( 75 < $total ) {
+		} else if ( 50 < $total && 75 >= $total ) {
 			$key = 3;
+		} else if ( 75 < $total ) {
+			$key = 4;
 		}
 
 		return $speeches[ $key ];
@@ -426,12 +464,16 @@ class Learndash_QCharts_Shortcode {
 
 		if ( isset( $weeks[0][4] ) ) {
 			if ( $weeks[0][4] % 2 ) {
-				$thumb = '<i>👍</i> : Super! Du hast diese Woche Übungen zu deinen Favoriten hinzugefügt. Du kannst deine ' .
-				         'bisherigen <a href="/favoriten/">hier</a> einsehen.';
+				$thumb = 'Super! Du hast diese Woche Übungen zu deinen Favoriten hinzugefügt. Du kannst deine ' .
+				         'bisherigen <a href="/favoriten/">hier</a> einsehen. <i>&#x1F44D;</i>' .
+				         '<img src="' . LQCHARTS_PLUGIN_URL . '/assets/img/heart.png">';
 			} else {
-				$thumb = '<i>👎</i> : Schade. Du hast diese Woche keine Übung zu deinen Favoriten hinzugefügt. Du kannst deine ' .
-				         'bisherigen <a href="/favoriten/">hier</a> einsehen.';
+				$thumb = 'Schade. Du hast diese Woche keine Übung zu deinen Favoriten hinzugefügt. Du kannst deine ' .
+				         'bisherigen <a href="/favoriten/">hier</a> einsehen. <i>&#x1F44E;</i>' .
+				         '<img src="' . LQCHARTS_PLUGIN_URL . '/assets/img/heart_empty.png">';
 			}
+		} else {
+			$thumb = 'Es wurden noch keine Angaben gemacht.';
 		}
 
 		return $thumb;

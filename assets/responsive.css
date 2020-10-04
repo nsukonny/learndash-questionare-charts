@@ -1,0 +1,95 @@
+@media screen and (max-width: 1024px) {
+  .lqcharts {
+    flex-wrap: wrap;
+  }
+  .lqcharts-left-side {
+    width: 100%;
+  }
+  .lqcharts-right-side {
+    width: 100%;
+    padding: 0;
+    margin-top: 20px;
+    min-width: 100%;
+  }
+  .lqcharts-score {
+    margin-top: 20px;
+  }
+  .lqcharts-score__body {
+    margin-top: 0;
+  }
+}
+@media screen and (max-width: 425px) {
+  .lqcharts-last-week__body {
+    border: 1px solid #E6E6E6;
+    padding: 15px;
+    margin-top: 24px;
+  }
+  .lqcharts-last-week__body-left {
+    font-size: 13px;
+    line-height: 19px;
+    color: #999999;
+    width: 100%;
+    float: none;
+    margin-top: 10px;
+  }
+  .lqcharts-last-week__body-left hr {
+    width: 100%;
+    margin: 10px 0 10px 0;
+    height: 1px;
+    background: #E6E6E6;
+  }
+  .lqcharts-last-week__body-right {
+    float: none;
+    width: 33%;
+    position: relative;
+    margin: 20px auto 0 auto;
+  }
+  .lqcharts-score__title {
+    margin-top: 18px;
+    height: 40px;
+  }
+  .lqcharts-score__i-tooltip {
+    transform: translate(-10%);
+  }
+  .lqcharts-score__i-tooltip:before {
+    left: 10%;
+  }
+  .lqcharts-score__i-tooltip:after {
+    left: 10%;
+  }
+  .lqcharts-score__body .lqcharts-rounded-center__title {
+    font-size: 20px;
+    margin-top: -6px;
+  }
+  .lqcharts-score__body .lqcharts-rounded-center__sub {
+    font-size: 8px;
+  }
+  .lqcharts-score__chart {
+    font-size: 13px;
+    min-width: 33%;
+  }
+  .lqcharts-score__chart canvas {
+    width: 100%;
+  }
+  .lqcharts-score__chart-wrapper {
+    width: 95%;
+  }
+  .lqcharts-graph {
+    padding: 0;
+  }
+  .lqcharts-graph__title {
+    margin: 20px;
+  }
+  .lqcharts-graph__chart {
+    height: auto;
+    padding-bottom: 10px;
+  }
+  .lqcharts-graph-footer i {
+    position: absolute;
+  }
+  .lqcharts-graph-footer img {
+    position: absolute;
+    margin-left: 25px;
+  }
+}
+/*# sourceMappingURL=responsive.css.map */

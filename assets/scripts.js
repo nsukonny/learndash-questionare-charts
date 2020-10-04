@@ -105,16 +105,21 @@ jQuery(document).ready(function ($) {
                     backgroundColor: '#9900CC',
                     fill: false,
                     data: lqchartsGraph.data('bef').split(','),
-                    yAxisID: 'y-axis-2'
+                    yAxisID: 'y-axis-1'
                 }, {
                     label: 'Stabilität',
                     borderColor: '#fff109',
                     backgroundColor: '#fff109',
                     fill: false,
                     data: lqchartsGraph.data('stab').split(','),
-                    yAxisID: 'y-axis-2'
+                    yAxisID: 'y-axis-1'
                 }]
-            };
+            },
+            stepSize = 10;
+
+        if (425 >= $(window).width()) {
+            stepSize = 20;
+        }
 
         window.onload = function () {
             var ctx = document.getElementById('lqcharts-graph').getContext('2d');
@@ -123,26 +128,27 @@ jQuery(document).ready(function ($) {
                 options: {
                     responsive: true,
                     hoverMode: 'index',
-                    stacked: false,
+                    stacked: true,
                     title: {
                         display: false,
                     },
                     scales: {
                         yAxes: [{
-                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
+                            type: 'linear',
                             display: true,
                             position: 'left',
                             id: 'y-axis-1',
-                        }, {
-                            type: 'linear', // only linear but allow scale type registration. This allows extensions to exist solely for log scale for instance
-                            display: true,
-                            position: 'right',
-                            id: 'y-axis-2',
-
-                            // grid line settings
                             gridLines: {
-                                drawOnChartArea: false, // only want the grid lines for one axis to show up
+                                display: true,
+                                drawBorder: true,
+                                drawOnChartArea: true,
+                                drawTicks: true,
                             },
+                            ticks: {
+                                min: 0,
+                                max: 100,
+                                stepSize: stepSize
+                            }
                         }],
                     }
                 }
@@ -151,3 +157,94 @@ jQuery(document).ready(function ($) {
     }
 
 });
+
+
+function createConfig(gridlines, title) {
+    return {
+        type: 'line',
+        data: {
+            labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+            datasets: [{
+                label: 'My First dataset',
+                backgroundColor: window.chartColors.red,
+                borderColor: window.chartColors.red,
+                data: [10, 30, 39, 20, 25, 34, 0],
+                fill: false,
+            }, {
+                label: 'My Second dataset',
+                fill: false,
+                backgroundColor: window.chartColors.blue,
+                borderColor: window.chartColors.blue,
+                data: [18, 33, 22, 19, 11, 39, 30],
+            }]
+        },
+        options: {
+            responsive: true,
+            title: {
+                display: true,
+                text: title
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: gridlines
+                }],
+                yAxes: [{
+                    gridLines: gridlines,
+                    ticks: {
+                        min: 0,
+                        max: 100,
+                        stepSize: 10
+                    }
+                }]
+            }
+        }
+    };
+}
+
+window.onload = function () {
+    var container = document.querySelector('.container');
+
+    [{
+        title: 'Display: true',
+        gridLines: {
+            display: true
+        }
+    }, {
+        title: 'Display: false',
+        gridLines: {
+            display: false
+        }
+    }, {
+        title: 'Display: false, no border',
+        gridLines: {
+            display: false,
+            drawBorder: false
+        }
+    }, {
+        title: 'DrawOnChartArea: false',
+        gridLines: {
+            display: true,
+            drawBorder: true,
+            drawOnChartArea: false,
+        }
+    }, {
+        title: 'DrawTicks: false',
+        gridLines: {
+            display: true,
+            drawBorder: true,
+            drawOnChartArea: true,
+            drawTicks: false,
+        }
+    }].forEach(function (details) {
+        var div = document.createElement('div');
+        div.classList.add('chart-container');
+
+        var canvas = document.createElement('canvas');
+        div.appendChild(canvas);
+        container.appendChild(div);
+
+        var ctx = canvas.getContext('2d');
+        var config = createConfig(details.gridLines, details.title);
+        new Chart(ctx, config);
+    });
+};

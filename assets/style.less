@@ -5,10 +5,10 @@
   font-weight: normal;
   display: flex;
   justify-content: space-between;
+  font-family: 'SF UI Text', sans-serif;
 
   &-left-side {
     width: 40%;
-    min-width: 460px;
   }
 
   &-right-side {
@@ -38,23 +38,113 @@
     }
 
     &__stat {
-      padding: 9px 9px 9px 27px;
+      padding: 9px;
       background: #EBEDED;
       position: relative;
       border-radius: 24px;
       color: #606060;
       font-size: 13px;
       line-height: 19px;
+      margin-left: 5px;
 
-      &::after {
-        display: block;
-        background: url("img/arrow.png");
-        width: 9px;
-        height: 10px;
-        content: '';
+      &_up {
+        padding-left: 27px;
+
+        &::after {
+          display: block;
+          background: url("img/arrow.png");
+          width: 9px;
+          height: 10px;
+          content: '';
+          position: absolute;
+          top: 11px;
+          left: 11px;
+        }
+      }
+
+      &_down {
+        padding-left: 27px;
+
+        &::after {
+          display: block;
+          background: url("img/arrow_down.png");
+          width: 9px;
+          height: 10px;
+          content: '';
+          position: absolute;
+          top: 13px;
+          left: 11px;
+        }
+      }
+
+
+      &-tooltip {
+        padding: 10px;
         position: absolute;
-        top: 13px;
-        left: 11px;
+        width: auto;
+        white-space: nowrap;
+        word-wrap: no-wrap;
+        box-shadow: 1px 1px 20px #aaa;
+        border-radius: 5px;
+        background-color: #fff;
+        top: -50px;
+        left: 50%;
+        transform: translate(-50%);
+        transform-style: preserve-3d;
+        z-index: 200;
+        font-size: 0.9em;
+        display: none;
+
+        &:after {
+          content: "";
+          position: absolute;
+          display: block;
+          width: 10px;
+          height: 10px;
+          transform-origin: 50% 50%;
+          transform: rotate(45deg) translateX(-50%);
+          background-color: #fff;
+          left: 50%;
+          bottom: -9px;
+          z-index: 400;
+        }
+
+        &:before {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          transform-origin: 50% 50%;
+          transform: rotate(45deg) translateX(-50%) translateZ(-1px);
+          background-color: #fff;
+          left: 50%;
+          bottom: -10px;
+          z-index: -1;
+          box-shadow: -1px -1px 20px #aaa;
+        }
+
+        &__src {
+          color: #0641AD;
+          box-shadow: 1px 1px 20px rgba(6, 65, 173, 0.3);
+          top: -50px;
+        }
+
+        &__src:after {
+          top: auto;
+          bottom: -8px;
+        }
+
+        &__src:before {
+          top: auto;
+          bottom: -8px;
+        }
+      }
+
+      &:hover {
+        .lqcharts-last-week__stat-tooltip {
+          display: block;
+        }
       }
     }
 
@@ -75,11 +165,10 @@
         color: #999999;
         width: calc(100% - 100px);
         float: left;
-        min-width: 300px;
         margin-top: 10px;
 
         hr {
-          width: 250px;
+          width: 85%;
           margin: 30px 0 10px 0;
           height: 1px;
           background: #E6E6E6;
@@ -114,6 +203,11 @@
         line-height: 13px;
         color: #808080;
       }
+
+      i {
+        font-size: 26px;
+        vertical-align: bottom;
+      }
     }
 
     &__body {
@@ -143,6 +237,81 @@
         position: relative;
       }
     }
+
+    &__i {
+      position: relative;
+
+      &:hover {
+
+        .lqcharts-score__i-tooltip {
+          display: block;
+        }
+      }
+
+      &-tooltip {
+        padding: 10px;
+        position: absolute;
+        width: auto;
+        white-space: nowrap;
+        word-wrap: no-wrap;
+        box-shadow: 1px 1px 20px #aaa;
+        border-radius: 5px;
+        background-color: #fff;
+        top: -50px;
+        left: 50%;
+        transform: translate(-20%);
+        transform-style: preserve-3d;
+        z-index: 200;
+        font-size: 12px !important;
+        display: none;
+        font-family: 'SF UI Text', sans-serif;
+
+        &:after {
+          content: "";
+          position: absolute;
+          display: block;
+          width: 10px;
+          height: 10px;
+          transform-origin: 50% 50%;
+          transform: rotate(45deg) translateX(-50%);
+          background-color: #fff;
+          left: 20%;
+          bottom: -9px;
+          z-index: 400;
+        }
+
+        &:before {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 10px;
+          height: 10px;
+          transform-origin: 50% 50%;
+          transform: rotate(45deg) translateX(-50%) translateZ(-1px);
+          background-color: #fff;
+          left: 20%;
+          bottom: -10px;
+          z-index: -1;
+          box-shadow: -1px -1px 20px #aaa;
+        }
+
+        &__src {
+          color: #0641AD;
+          box-shadow: 1px 1px 20px rgba(6, 65, 173, 0.3);
+          top: -50px;
+        }
+
+        &__src:after {
+          top: auto;
+          bottom: -8px;
+        }
+
+        &__src:before {
+          top: auto;
+          bottom: -8px;
+        }
+      }
+    }
   }
 
   .lqcharts-rounded-center {
@@ -170,37 +339,36 @@
 
   &-graph {
     border: 1px solid #E6E6E6;
-    padding: 20px;
+    padding: 10px 20px 20px 20px;
 
     &__title {
-      font-size: 10px;
+      font-size: 13px;
       line-height: 13px;
       color: #808080;
 
       h3 {
-        font-size: 14px;
-        line-height: 19px;
+        font-size: 18px;
+        line-height: 32px;
         color: #132B46;
         margin: 0;
       }
     }
 
     &__chart {
-      height: 300px;
     }
   }
 
   &-graph-footer {
     border: 1px solid #E6E6E6;
     margin-top: 10px;
-    padding: 10px 15px;
-    font-size: 10px;
-    line-height: 24px;
+    padding: 10px 20px 20px 20px;
+    font-size: 13px;
+    line-height: 19px;
     color: #B3B3B3;
 
     h3 {
-      font-size: 13px;
-      line-height: 19px;
+      font-size: 18px;
+      line-height: 32px;
       color: #132B46;
       margin: 0;
     }
@@ -212,7 +380,7 @@
 
     i {
       font-size: 20px;
-      margin-right: 10px;
+      margin-right: 5px;
     }
   }
 
