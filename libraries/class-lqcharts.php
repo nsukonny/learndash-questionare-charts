@@ -25,7 +25,7 @@ class Learndash_QCharts {
 	 * @since 1.0.0
 	 * @var string
 	 */
-	private $version = '1.0.0';
+	private $version = '1.0.1';
 
 	/**
 	 * Instantiate the main class
@@ -89,8 +89,11 @@ class Learndash_QCharts {
 	public function includes() {
 
 		if ( defined( 'LQCHARTS_LIBRARIES_PATH' ) ) {
+			require LQCHARTS_PLUGIN_PATH . 'vendor/autoload.php';
 			require LQCHARTS_LIBRARIES_PATH . 'class-metabox.php';
 			require LQCHARTS_LIBRARIES_PATH . 'class-shortcode.php';
+			require LQCHARTS_LIBRARIES_PATH . 'class-reports.php';
+			require LQCHARTS_LIBRARIES_PATH . 'class-wp-list-table.php';
 		}
 
 	}

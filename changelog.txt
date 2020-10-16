@@ -1,3 +1,7 @@
+v1.0.1 -> Oct 07, 2020
+--------------------------
+* **[add]** Users list for filtering and export to XLSX
+
 v1.0.0 -> Jul 29, 2020
 --------------------------
 * **[add]** Beta release

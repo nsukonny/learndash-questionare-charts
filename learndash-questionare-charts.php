@@ -3,7 +3,7 @@
  * Plugin Name: LearnDash Questionare Charts
  * Plugin URI: https://nsukonny.ru/learndash-questionare-charts/
  * Description: Display questionare results as charts
- * Version: 1.0.0
+ * Version: 1.0.1
  * Author: NSukonny
  * Author URI: https://nsukonny.ru
  * Text Domain: lqcharts
