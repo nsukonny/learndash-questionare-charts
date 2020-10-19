@@ -94,6 +94,7 @@ class Learndash_QCharts {
 			require LQCHARTS_LIBRARIES_PATH . 'class-shortcode.php';
 			require LQCHARTS_LIBRARIES_PATH . 'class-reports.php';
 			require LQCHARTS_LIBRARIES_PATH . 'class-wp-list-table.php';
+			require LQCHARTS_LIBRARIES_PATH . 'class-quiz-history.php';
 		}
 
 	}

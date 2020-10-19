@@ -118,15 +118,17 @@ class Learndash_QCharts_Reports_Table extends WP_List_Table {
 		if ( $query->have_posts() ) {
 			while ( $query->have_posts() ) {
 				$query->the_post();
-				$post_id = get_the_ID();
 
-				$quiz_pro_id  = learndash_get_setting( $post_id, 'quiz_pro' );
-				$course_id    = get_post_meta( $post_id, 'course_id', true );
+				$quiz_id      = get_the_ID();
+				$quiz_pro_id  = learndash_get_setting( $quiz_id, 'quiz_pro' );
+				$course_id    = get_post_meta( $quiz_id, 'course_id', true );
 				$quiz_results = $this->get_quiz_results( $quiz_pro_id, $course_id, get_the_title() );
 
 				$items = array_merge( $items, $quiz_results );
 			}
 		}
+
+		$items = $this->get_items_from_history( $items );
 
 		return $items;
 	}
@@ -165,9 +167,14 @@ class Learndash_QCharts_Reports_Table extends WP_List_Table {
 				}
 
 				$user_results                = array();
+				$user_results['quiz_id']     = $quiz_id;
 				$user_results['id']          = $model->getUserId();
 				$user_results['user_name']   = $model->getUserName();
 				$user_results['create_time'] = $model->getCreateTime();
+				$user_results['course_id']   = $course_id;
+				$course                      = get_post( $course_id );
+				$user_results['course']      = $course ? $course->post_title : '';
+				$user_results['questionare'] = $questionare_title;
 				$user_results['answers']     = array();
 
 				$statisticUsers = $statisticUserMapper->fetchUserStatistic( $model->getStatisticRefId(), $quiz_id );
@@ -178,11 +185,6 @@ class Learndash_QCharts_Reports_Table extends WP_List_Table {
 						'gpoints' => $statistic_user->getGPoints(),
 					);
 				}
-
-				$user_results['course_id']   = $course_id;
-				$course                      = get_post( $course_id );
-				$user_results['course']      = $course ? $course->post_title : '';
-				$user_results['questionare'] = $questionare_title;
 
 				$quiz_results[ $model->getUserId() ] = $user_results;
 			}
@@ -292,6 +294,44 @@ class Learndash_QCharts_Reports_Table extends WP_List_Table {
 		$sheet->getColumnDimension( 'I' )->setAutoSize( true );
 
 		return $sheet;
+	}
+
+	/**
+	 * Load items from history
+	 *
+	 * @since 1.0.2
+	 */
+	private function get_items_from_history( $items ) {
+
+		$users = get_users( array(
+			'meta_key'     => 'lqcharts-history-quizzes',
+			'meta_compare' => 'EXISTS',
+		) );
+
+		if ( $users ) {
+			foreach ( $users as $user ) {
+				$quizzes = get_user_meta( $user->ID, 'lqcharts-history-quizzes', true );
+
+				if ( is_array( $quizzes ) && 0 < count( $quizzes ) ) {
+					foreach ( $quizzes as $quiz_id => $quiz_users ) {
+						$new_items = array();
+
+						foreach ( $quiz_users as $user_data ) {
+							if ( isset( $new_items[ $user_data['id'] ] ) && $user_data['create_time'] <= $new_items[ $user_data['id'] ]['create_time'] ) {
+								continue;
+							}
+
+							$new_items[ $user_data['id'] ]            = $user_data;
+							$new_items[ $user_data['id'] ]['answers'] = array_values( $user_data['answers'] );
+						}
+
+						$items = array_merge( $items, $new_items );
+					}
+				}
+			}
+		}
+
+		return $items;
 	}
 
 }

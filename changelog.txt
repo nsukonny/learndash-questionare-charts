@@ -1,3 +1,7 @@
+v1.0.2 -> Oct 19, 2020
+--------------------------
+* **[add]** Quiz history. Backup for quiz data for display it in reports.
+
 v1.0.1 -> Oct 07, 2020
 --------------------------
 * **[add]** Users list for filtering and export to XLSX
